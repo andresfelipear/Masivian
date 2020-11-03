@@ -9,23 +9,6 @@ var path = require("path")
 const fileUpload = require("express-fileupload");
 const nodemailer = require("nodemailer");
 const XLSX = require("xlsx");
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: 'andresfelipear@gmail.com',
-    pass: "Qwe321r4"
-  }
-});
-function enviarCorreoBienvenida(email, nombre) {
-  const opciones = {
-    from: 'andresfelipear@gmail.com',
-    to: email,
-    subject: 'Bienvenido a la pagina',
-    text: `Hola ${nombre}`
-  }
-  transporter.sendMail(opciones, (error, info) => {
-  })
-}
 const poolPostgres = new Pool({
   max: 20,
   host: 'localhost',
@@ -47,28 +30,16 @@ app.use(express.static('public'));
 app.use(session({ secret: 'token-muy-secreto', resave: true, saveUninitialized: true }));
 app.use(flash());
 app.use(fileUpload());
-app.use('/admin/', (peticion, respuesta, next) => {
-  if (!peticion.session.usuario) {
-    peticion.flash('mensaje', 'Debe iniciar sesión')
-    respuesta.redirect("/")
-  }
-  else {
-    next();
-  }
-});
-
 app.listen(8080, function () {
   console.log("Servidor Iniciado");
 });
 
-app.get("/apuesta", function (req, res) {
-  res.render("apuesta", { message: req.flash('message') });
+app.get("/apuesta/:id", function (req, res) {
+  res.render("apuesta", { message: req.flash('message'), id:req.params.id});
 });
-
 app.get("/cerrar-apuesta", function (req, res) {
   res.render("cierre", { message: req.flash('message') });
 });
-
 app.get('/crear_ruleta', function (request, response) {
   poolPostgres.connect(function (err, client, release) {
     if (err) {
@@ -84,14 +55,13 @@ app.get('/crear_ruleta', function (request, response) {
         response.redirect('/');
       }
       else {
-        request.flash('message', `Ruleta creada con exito! Id:`);
+        request.flash('message', `Ruleta creada con exito!`);
         response.redirect('/');
       }
     });
     release();
   });
 });
-
 app.get('/abrir_ruleta/:id', function (request, response) {
   poolPostgres.connect(function (err, client, release) {
     if (err) {
@@ -128,7 +98,6 @@ app.get('/abrir_ruleta/:id', function (request, response) {
     release();
   });
 });
-
 app.get("/", function (req, res) {
   poolPostgres.connect(function (err, client, release) {
     if (err) {
@@ -150,7 +119,6 @@ app.get("/", function (req, res) {
     release();
   })
 });
-
 app.post("/procesar-apuesta", function (req, res) {
   poolPostgres.connect(function (err, client, release) {
     const idRoulette = req.body.idRuleta;
@@ -210,7 +178,6 @@ app.post("/procesar-apuesta", function (req, res) {
     release();
   })
 })
-
 app.post("/procesar-cerrar", function (req, res) {
   poolPostgres.connect(function (err, client, release) {
     const idRoulette = req.body.idRuleta;
@@ -276,11 +243,9 @@ app.post("/procesar-cerrar", function (req, res) {
     release();
   });
 });
-
 function numberWin() {
   return Math.round(Math.random() * 36);
 }
-
 function numberOdd(number) {
   if ((number % 2) == 0) {
     return true;
