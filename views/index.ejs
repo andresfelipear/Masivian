@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Clean Code</title>
+    <link rel="stylesheet" href="stylesheets/estilos.css">
+    <link rel="stylesheet" href="stylesheets/mini-default.min.css">
+</head>
+
+<body>
+    <% include ./partials/encabezado%>
+
+    <div class="container">
+        <h1>Ruleta</h1>
+        <p>Estado de las ruletas</p>
+
+        <div>
+
+            <div>
+
+                <% if (message && message.length > 0) { %>
+                <h4><span class="icon-info"></span>
+                    <%=message%></h4>
+                <%console.log(message) } %>
+                <table class="tabla2">
+                    <tr>
+                        <% column.forEach(columna => { %>
+                        <th>
+                            <%=columna%>
+                        </th>
+                        <% }) %>
+                    </tr>
+                    <% data.forEach(dat => { %>
+                    <tr>
+                        <% column.forEach(col =>{ var a=parseInt(col); var d=[]; d=dat;%>
+                        <td><%=dat[col]%></td>
+                        <% }) %>
+                    </tr>
+                    <%})%>
+                </table>
+            </div>
+        </div>
+    </div>
+    <% include ./partials/pie %>
+    <script src="javascripts/script.js"></script>
+</body>
+
+</html>

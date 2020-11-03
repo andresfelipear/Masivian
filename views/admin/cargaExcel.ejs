@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog Viajes</title>
+  <link rel="stylesheet" href="stylesheets/estilos.css">
+  <link rel="stylesheet" href="stylesheets/mini-default.min.css">
+</head>
+
+<body>
+  <% include ../partials/encabezado_privado%>
+
+  <div class="container">
+    <h1>Carga Excel</h1>
+    <p>Cargue aqui el archivo excel que desea subir a la base de datos</p>
+
+    <div class="row">
+
+      <div class="col-sm-12">
+
+        <% if (mensaje && mensaje.length > 0) { %>
+        <h4><span class="icon-info"></span>
+          <%=mensaje%></h4>
+        <%console.log(mensaje) } %>
+
+        <form action="/procesar_carga" enctype="multipart/form-data" method="POST">
+          <fieldset>
+            <legend>Archivo</legend>
+            <p>
+              <label for="archivoExcel"> Excel</label>
+              <br>
+              <input type="file" id="excel" name="excel" />
+            </p>
+            <p>
+              <input class="primary" type="submit" value="Cargar" />
+            </p>
+          </fieldset>
+        </form>
+
+        <table>
+          <tr>
+            <% column.forEach(columna => { %>
+            <th>
+              <%=columna%>
+            </th>
+            <% }) %>
+          </tr>
+          <% datos.forEach(dato => { %>
+            <tr>
+              <% column.forEach(col =>{ var a=parseInt(col); var d=[]; d=dato;%>
+                
+              <td><%=dato[col]%></td>
+              <% }) %>
+            </tr>
+            <%}) %>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <% include ../partials/pie %>
+  <script src="javascripts/script.js"></script>
+</body>
+
+</html>

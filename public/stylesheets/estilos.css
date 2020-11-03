@@ -1,0 +1,36 @@
+html {
+  font-size: 14px;
+}
+
+.enlaces-registro{
+  float: right;
+  position: relative;
+  top: 14px;
+  right: 18px;
+}
+
+.centrado{
+  text-align: center;
+}
+
+.buscador{
+  text-align: center;
+}
+
+.avatar{
+  max-height: 15px;
+}
+.tabla{
+  width: auto;
+}
+.tabla2{
+  width: 25%;
+  text-align: center;
+}
+.tabla2 th{
+  text-align: center;
+}
+#negro:focus, #negro:hover, #negro{
+  background:black; 
+}
+
