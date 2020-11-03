@@ -33,7 +33,6 @@ app.use(fileUpload());
 app.listen(8080, function () {
   console.log("Servidor Iniciado");
 });
-
 app.get("/apuesta/:id", function (req, res) {
   res.render("apuesta", { message: req.flash('message'), id:req.params.id});
 });
@@ -126,15 +125,15 @@ app.post("/procesar-apuesta", function (req, res) {
     let color = req.body.color;
     const cash = req.body.dinero;
     const query2 = `SELECT *FROM ruleta WHERE id=${idRoulette}`;
-    let query = `INSERT INTO apuesta(ruleta_id,numero,color,dinero_apostado,estado_apuesta) 
+    let query = `INSERT INTO apuesta(ruleta_id,numero,color,dinero_apostado,estado_apuesta)
     VALUES (${idRoulette}, ${num}, ${color}, ${cash}, 'Abierta')`;
     if (color == undefined) {
       color = '';
-      query = `INSERT INTO apuesta(ruleta_id,numero,dinero_apostado,estado_apuesta) 
+      query = `INSERT INTO apuesta(ruleta_id,numero,dinero_apostado,estado_apuesta)
       VALUES (${idRoulette}, ${num}, ${cash}, 'Abierta')`;
     }
     if (num == '') {
-      query = `INSERT INTO apuesta(ruleta_id,color,dinero_apostado,estado_apuesta) 
+      query = `INSERT INTO apuesta(ruleta_id,color,dinero_apostado,estado_apuesta)
       VALUES (${idRoulette}, ${color}, ${cash}, 'Abierta')`;
     }
     client.query(query2, function (err2, result) {
@@ -254,5 +253,3 @@ function numberOdd(number) {
     return false;
   }
 }
-
-
